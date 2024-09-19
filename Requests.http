@@ -1,0 +1,36 @@
+POST http://localhost:5069/register
+content-Type: application/json
+
+{
+    "Username": "verytestuser",
+    "Email": "verytestuser@realemail.com",
+    "Password": "nicepassword"
+}
+
+### Ir sitas returnina tokena su kuriuo poto gali autorizuotis pasiimant kitus requestus
+
+POST http://localhost:5069/login
+Content-Type: application/json
+
+{
+    "Username": "verytestuser",
+    "Password": "nicepassword"
+}
+
+###
+POST http://localhost:5069/announce
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoidmVyeXRlc3R1c2VyIiwic3ViIjoidmVyeXRlc3R1c2VyIiwiZW1haWwiOiJ2ZXJ5dGVzdHVzZXJAcmVhbGVtYWlsLmNvbSIsImp0aSI6Ijc5NWZiZWY0LTgzNjMtNDIyNS04MGQ0LWIwMTZmZWE5MTYyMSIsImV4cCI6MTcyNjc0NDQ1NSwiaXNzIjoieW91cmRvbWFpbi5jb20iLCJhdWQiOiJ5b3VyZG9tYWluLmNvbSJ9.N_HRuH02SRI-DK2tVO2Ia8hOiA1PUJcUlzNs9DMBzZo
+Content-Type: application/json
+
+{
+    "role": "driver"
+}
+
+
+### Cia tiesiog prasicheckint gali ar tokenas valid.
+GET http://localhost:5069/check
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoidmVyeXRlc3R1c2VyIiwic3ViIjoidmVyeXRlc3R1c2VyIiwiZW1haWwiOiJ2ZXJ5dGVzdHVzZXJAcmVhbGVtYWlsLmNvbSIsImp0aSI6Ijc5NWZiZWY0LTgzNjMtNDIyNS04MGQ0LWIwMTZmZWE5MTYyMSIsImV4cCI6MTcyNjc0NDQ1NSwiaXNzIjoieW91cmRvbWFpbi5jb20iLCJhdWQiOiJ5b3VyZG9tYWluLmNvbSJ9.N_HRuH02SRI-DK2tVO2Ia8hOiA1PUJcUlzNs9DMBzZo
+
+### Returnina visus siandiens announcementus
+GET http://localhost:5069/announcements/today
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoidmVyeXRlc3R1c2VyIiwic3ViIjoidmVyeXRlc3R1c2VyIiwiZW1haWwiOiJ2ZXJ5dGVzdHVzZXJAcmVhbGVtYWlsLmNvbSIsImp0aSI6Ijc5NWZiZWY0LTgzNjMtNDIyNS04MGQ0LWIwMTZmZWE5MTYyMSIsImV4cCI6MTcyNjc0NDQ1NSwiaXNzIjoieW91cmRvbWFpbi5jb20iLCJhdWQiOiJ5b3VyZG9tYWluLmNvbSJ9.N_HRuH02SRI-DK2tVO2Ia8hOiA1PUJcUlzNs9DMBzZo

@@ -1,0 +1,42 @@
+# .NET build files
+bin/
+obj/
+
+# Visual Studio Code directories
+.vscode/
+
+# Rider project settings
+.idea/
+
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Auto-generated files
+Generated_Code/
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+*.tmp
+*.temp
+
+# Database
+*.mdf
+*.ldf
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# ASP.NET Core environment
+wwwroot/
+node_modules/
+
+# Secret configuration files (Do not include in version control)
+appsettings.Secrets.json
