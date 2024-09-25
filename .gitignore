@@ -43,3 +43,4 @@ node_modules/
 
 # Secret configuration files (Do not include in version control)
 appsettings.Secrets.json
+*.db
