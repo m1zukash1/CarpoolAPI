@@ -29,9 +29,9 @@ logs/
 # Database
 *.mdf
 *.ldf
-*.db         # SQLite database files
-*.db-shm     # SQLite shared memory files
-*.db-wal     # SQLite write-ahead log files
+*.db
+*.db-shm
+*.db-wal
 
 # OS generated files
 .DS_Store
@@ -43,4 +43,3 @@ node_modules/
 
 # Secret configuration files (Do not include in version control)
 appsettings.Secrets.json
-*.db
