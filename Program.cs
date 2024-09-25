@@ -60,7 +60,8 @@ builder.Services.AddAuthorization();
 
 // Add DB context (just to make sure we also have DB context set)
 builder.Services.AddDbContext<UserContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+
 
 var app = builder.Build();
 
