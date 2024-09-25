@@ -29,6 +29,9 @@ logs/
 # Database
 *.mdf
 *.ldf
+*.db         # SQLite database files
+*.db-shm     # SQLite shared memory files
+*.db-wal     # SQLite write-ahead log files
 
 # OS generated files
 .DS_Store
