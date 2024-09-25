@@ -19,18 +19,19 @@ CarpoolAPI is a backend API built with ASP.NET Core for a university carpooling 
    ```bash
    dotnet restore
    ```
-4. Create an appsettings.Secrets.json file in the project root with the following content, replacing with your own values:
+4. Create an ``appsettings.Secrets.json`` file in the project root with the following content, replacing with your own values:
+
     ```json
-    {
-      "ConnectionStrings": {
-        "DefaultConnection": "Server=(localdb)\\mssqllocaldb;Database=YourDatabaseName;Trusted_Connection=True;MultipleActiveResultSets=true"
-      },
-      "Jwt": {
-        "Key": "this_is_a_very_secure_key_123456",
-        "Issuer": "yourdomain.com",
-        "Audience": "yourdomain.com"
+      {
+        "ConnectionStrings": {
+          "DefaultConnection": "Data Source=BackEndDB.db"
+        },
+        "Jwt": {
+          "Key": "this_is_a_very_secure_key_123456",
+          "Issuer": "yourdomain.com",
+          "Audience": "yourdomain.com"
+        }
       }
-    }
     ```
 5. Run the API:
    ```bash
