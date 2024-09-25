@@ -4,7 +4,10 @@ CarpoolAPI is a backend API built with ASP.NET Core for a university carpooling 
 
 ## Prerequisites
 - Install **.NET 8 SDK**: [Download .NET 8](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
-
+- Install **Entity Framework Core CLI** (if not already installed):
+  ```bash
+  dotnet tool install --global dotnet-ef
+  ```
 ## Setup Instructions
 
 1. Clone the repository:
@@ -33,11 +36,15 @@ CarpoolAPI is a backend API built with ASP.NET Core for a university carpooling 
         }
       }
     ```
-5. Run the API:
+5. Apply Entity Framework Core migrations to initialize the SQLite database:
+   ```bash
+   dotnet ef database update
+   ```
+6. Run the API:
    ```bash
    dotnet run
    ```
-6. Access the API locally:
+7. Access the API locally:
    ```
    http://localhost:5069/
    ```
