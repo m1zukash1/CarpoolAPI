@@ -78,7 +78,10 @@ app.MapPost("/register", async (UserContext db, UserDto userDto) =>
     {
         Username = userDto.Username,
         Email = userDto.Email,
-        PasswordHash = BCrypt.Net.BCrypt.HashPassword(userDto.Password)
+        PasswordHash = BCrypt.Net.BCrypt.HashPassword(userDto.Password),
+        FirstName = userDto.FirstName,
+        LastName = userDto.LastName,
+        PhoneNumber = userDto.PhoneNumber
     };
 
     db.Users.Add(user);
@@ -86,6 +89,7 @@ app.MapPost("/register", async (UserContext db, UserDto userDto) =>
 
     return Results.Ok("User registered successfully.");
 });
+
 
 app.MapPost("/login", async (UserContext db, UserDto userDto) =>
 {
