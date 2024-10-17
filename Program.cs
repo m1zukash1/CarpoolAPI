@@ -155,13 +155,23 @@ app.MapPut("/update", [Authorize] async (UserContext db, ClaimsPrincipal userPri
 
 app.MapPost("/announce", [Authorize] async (UserContext db, ClaimsPrincipal userPrincipal, [FromBody] AnnouncementRequest request) =>
 {
-    // Extract the username from ClaimTypes.NameIdentifier
+    // Extract the username from the JWT
     var username = userPrincipal.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-
     if (string.IsNullOrEmpty(username))
     {
         Console.WriteLine("Username could not be extracted from JWT.");
         return Results.Unauthorized();
+    }
+
+    // Validate the request fields
+    if (request.Role != "driver" && request.Role != "passenger")
+    {
+        return Results.BadRequest("Invalid role. Must be 'driver' or 'passenger'.");
+    }
+
+    if (request.Latitude == 0 || request.Longitude == 0)
+    {
+        return Results.BadRequest("Latitude and Longitude must be provided and cannot be zero.");
     }
 
     // Find the user in the database
@@ -169,12 +179,6 @@ app.MapPost("/announce", [Authorize] async (UserContext db, ClaimsPrincipal user
     if (user == null)
     {
         return Results.NotFound("User not found.");
-    }
-
-    // Validate the role input
-    if (request.Role != "driver" && request.Role != "passenger")
-    {
-        return Results.BadRequest("Invalid role. Must be 'driver' or 'passenger'.");
     }
 
     // Check if the user has already made an announcement today
@@ -192,7 +196,9 @@ app.MapPost("/announce", [Authorize] async (UserContext db, ClaimsPrincipal user
     {
         UserId = user.Id,
         Role = request.Role,
-        Date = today // Store the announcement for today's date
+        Date = today,
+        Latitude = request.Latitude,
+        Longitude = request.Longitude
     };
 
     db.Announcements.Add(announcement);
@@ -200,6 +206,7 @@ app.MapPost("/announce", [Authorize] async (UserContext db, ClaimsPrincipal user
 
     return Results.Ok($"User announced as {request.Role} for today.");
 });
+
 
 
 // Get all announcements for today (only accessible to authorized users)
@@ -216,16 +223,19 @@ app.MapGet("/announcements/today", [Authorize] async (UserContext db) =>
         return Results.NotFound("No announcements for today.");
     }
 
-    // Optionally, return only relevant fields instead of the entire Announcement object
+    // Return relevant fields, including coordinates
     var response = announcementsForToday.Select(a => new 
     {
         Username = a.User.Username,
         Role = a.Role,
-        Date = a.Date
+        Date = a.Date,
+        Latitude = a.Latitude,
+        Longitude = a.Longitude
     });
 
     return Results.Ok(response);
 });
+
 
 
 
