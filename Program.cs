@@ -101,6 +101,58 @@ app.MapPost("/login", async (UserContext db, UserDto userDto) =>
     return Results.Ok(new { token });
 });
 
+app.MapPut("/update", [Authorize] async (UserContext db, ClaimsPrincipal userPrincipal, UpdateUserDto updateUserDto) =>
+{
+    // Extract the username from the JWT
+    var username = userPrincipal.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+    if (string.IsNullOrEmpty(username))
+    {
+        return Results.Unauthorized();
+    }
+
+    // Find the user in the database
+    var user = await db.Users.SingleOrDefaultAsync(u => u.Username == username);
+    if (user == null)
+    {
+        return Results.NotFound("User not found.");
+    }
+
+    // Update user details if the corresponding fields are provided
+    if (!string.IsNullOrEmpty(updateUserDto.FirstName))
+    {
+        user.FirstName = updateUserDto.FirstName;
+    }
+    if (!string.IsNullOrEmpty(updateUserDto.LastName))
+    {
+        user.LastName = updateUserDto.LastName;
+    }
+    if (!string.IsNullOrEmpty(updateUserDto.PhoneNumber))
+    {
+        user.PhoneNumber = updateUserDto.PhoneNumber;
+    }
+    if (!string.IsNullOrEmpty(updateUserDto.Email))
+    {
+        // Optionally, check if the new email is already taken by another user
+        var emailExists = await db.Users.AnyAsync(u => u.Email == updateUserDto.Email && u.Username != username);
+        if (emailExists)
+        {
+            return Results.BadRequest("Email is already in use by another user.");
+        }
+        user.Email = updateUserDto.Email;
+    }
+    if (!string.IsNullOrEmpty(updateUserDto.Password))
+    {
+        // Hash the new password before saving it
+        user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(updateUserDto.Password);
+    }
+
+    // Save changes to the database
+    await db.SaveChangesAsync();
+
+    return Results.Ok("User details updated successfully.");
+});
+
+
 app.MapPost("/announce", [Authorize] async (UserContext db, ClaimsPrincipal userPrincipal, [FromBody] AnnouncementRequest request) =>
 {
     // Extract the username from ClaimTypes.NameIdentifier
